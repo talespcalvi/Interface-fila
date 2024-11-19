@@ -404,44 +404,45 @@ remover_celula (celulaTAD *celula)
  *     b) QUEUE_ERRO_QUEUE: queue inválida;
  *     c) QUEUE_ERRO_ARGUMENTO: elemento ou prioridade inválidos.
  */
-queue_status priority_enqueue(queueTAD queue, const elementoT elemento, int prioridade) {
-    if (queue == NULL) return QUEUE_ERRO_QUEUE;      // Verifica se a fila é válida
-    if (elemento.valor == 0 && elemento.prioridade == 0) return QUEUE_ERRO_ARGUMENTO; // Verifica se o elemento é válido
+
+queue_status 
+priority_enqueue(queueTAD queue, const elementoT elemento, int prioridade) 
+{
+    if (queue == NULL) return QUEUE_ERRO_QUEUE;      
+    if (elemento.valor == 0 && elemento.prioridade == 0) return QUEUE_ERRO_ARGUMENTO;
 
     celulaTAD nova = criar_celula();
-    if (nova == NULL) return QUEUE_ERRO_ALOCACAO;   // Falha ao criar a célula
+    if (nova == NULL) return QUEUE_ERRO_ALOCACAO;  
 
-    // Configura o novo elemento
     nova->elemento = elemento;  
     nova->proximo = NULL;
 
-    // Caso especial: fila vazia
-    if (queue->inicio == NULL) {
+    if (queue->inicio == NULL) 
+    {
         queue->inicio = queue->fim = nova;
         queue->nelem++;
         return QUEUE_OK;
     }
 
-    // Inserção no início da fila se a prioridade for maior (menor número)
-    if (queue->inicio->elemento.prioridade > prioridade) {
+    if (queue->inicio->elemento.prioridade > prioridade) 
+    {
         nova->proximo = queue->inicio;
         queue->inicio = nova;
         queue->nelem++;
         return QUEUE_OK;
     }
 
-    // Inserção no meio ou final da fila
     celulaTAD atual = queue->inicio;
-    while (atual->proximo != NULL && atual->proximo->elemento.prioridade <= prioridade) {
+    while (atual->proximo != NULL && atual->proximo->elemento.prioridade <= prioridade) 
+    {
         atual = atual->proximo;
     }
 
-    // Insere a nova célula
     nova->proximo = atual->proximo;
     atual->proximo = nova;
 
-    // Atualiza o fim da fila, se necessário
-    if (nova->proximo == NULL) {
+    if (nova->proximo == NULL) 
+    {
         queue->fim = nova;
     }
 
