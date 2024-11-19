@@ -170,9 +170,7 @@ enqueue (queueTAD queue, const elementoT elemento)
 {
     if (queue == NULL)
         return QUEUE_ERRO_QUEUE;
-    else if (elemento == NULL)
-        return QUEUE_ERRO_ARGUMENTO;
-
+    
     celulaTAD nova = criar_celula();
     if (nova == NULL)
         return QUEUE_ERRO_ALOCACAO;
@@ -406,47 +404,47 @@ remover_celula (celulaTAD *celula)
  *     b) QUEUE_ERRO_QUEUE: queue inválida;
  *     c) QUEUE_ERRO_ARGUMENTO: elemento ou prioridade inválidos.
  */
-queue_status
-priority_enqueue(queueTAD queue, const elementoT elemento, int prioridade)
-{
-    if (queue == NULL) return QUEUE_ERRO_QUEUE;
-    if (queue == NULL) return QUEUE_ERRO_ARGUMENTO;
+queue_status priority_enqueue(queueTAD queue, const elementoT elemento, int prioridade) {
+    if (queue == NULL) return QUEUE_ERRO_QUEUE;      // Verifica se a fila é válida
+    if (elemento.valor == 0 && elemento.prioridade == 0) return QUEUE_ERRO_ARGUMENTO; // Verifica se o elemento é válido
 
     celulaTAD nova = criar_celula();
-    if (nova == NULL) return QUEUE_ERRO_ALOCACAO;
+    if (nova == NULL) return QUEUE_ERRO_ALOCACAO;   // Falha ao criar a célula
 
-    nova->elemento = elemento;
+    // Configura o novo elemento
+    nova->elemento = elemento;  
     nova->proximo = NULL;
 
-    if (queue->inicio == NULL)
-    {
+    // Caso especial: fila vazia
+    if (queue->inicio == NULL) {
         queue->inicio = queue->fim = nova;
         queue->nelem++;
-
         return QUEUE_OK;
     }
 
-    if (((int *)queue->inicio->elemento)[1] > prioridade)
-    {
+    // Inserção no início da fila se a prioridade for maior (menor número)
+    if (queue->inicio->elemento.prioridade > prioridade) {
         nova->proximo = queue->inicio;
         queue->inicio = nova;
         queue->nelem++;
-
-        return  QUEUE_OK;
+        return QUEUE_OK;
     }
 
+    // Inserção no meio ou final da fila
     celulaTAD atual = queue->inicio;
-    while (atual->proximo != NULL && ((int *)atual->proximo->elemento)[1] <= prioridade)
-    {
+    while (atual->proximo != NULL && atual->proximo->elemento.prioridade <= prioridade) {
         atual = atual->proximo;
     }
 
+    // Insere a nova célula
     nova->proximo = atual->proximo;
     atual->proximo = nova;
 
-    if (nova->proximo == NULL) queue->fim = nova;
-    
+    // Atualiza o fim da fila, se necessário
+    if (nova->proximo == NULL) {
+        queue->fim = nova;
+    }
+
     queue->nelem++;
-    
     return QUEUE_OK;
 }
