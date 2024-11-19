@@ -17,16 +17,18 @@ int main()
     elementoT elemento;
     bool esta_vazia;
 
-   do {
-        // Verifica se a fila está vazia
-        if (vazia(queue, &esta_vazia) != QUEUE_OK) {
+   do 
+   {
+        if (vazia(queue, &esta_vazia) != QUEUE_OK) 
+        {
             printf("Erro ao verificar se a fila está vazia.\n");
             break;
         }
 
-        // Continua apenas se a fila não está vazia
-        if (!esta_vazia) {
-            if (dequeue(queue, &elemento) == QUEUE_OK) {
+        if (!esta_vazia) 
+        {
+            if (dequeue(queue, &elemento) == QUEUE_OK) 
+            {
                 printf("Valor: %d, Prioridade: %d\n", elemento.valor, elemento.prioridade);
             } else {
                 printf("Erro ao remover elemento da fila.\n");
