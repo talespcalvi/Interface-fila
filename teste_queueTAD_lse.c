@@ -6,20 +6,33 @@ int main()
 {
     queueTAD queue = criar_queue();
 
-    int x[] = {10, 3};
-    int y[] = {20, 1};
-    int z[] = {30, 2};
+    elementoT x = {10, 3};
+    elementoT y = {20, 1};
+    elementoT z = {30, 2};
 
-    priority_enqueue(queue, x, x[1]);
-    priority_enqueue(queue, y, y[1]);
-    priority_enqueue(queue, z, z[1]);
+    priority_enqueue(queue, x, x.prioridade);
+    priority_enqueue(queue, y, y.prioridade);
+    priority_enqueue(queue, z, z.prioridade);
 
     elementoT elemento;
-    while (vazia(queue, NULL) != QUEUE_OK)
-    {
-        dequeue(queue, &elemento);
-        printf("Valor: %d, Prioridade: %d\n", ((int *)elemento)[0], ((int *)elemento)[1]);
-    }
+    bool esta_vazia;
+
+   do {
+        // Verifica se a fila está vazia
+        if (vazia(queue, &esta_vazia) != QUEUE_OK) {
+            printf("Erro ao verificar se a fila está vazia.\n");
+            break;
+        }
+
+        // Continua apenas se a fila não está vazia
+        if (!esta_vazia) {
+            if (dequeue(queue, &elemento) == QUEUE_OK) {
+                printf("Valor: %d, Prioridade: %d\n", elemento.valor, elemento.prioridade);
+            } else {
+                printf("Erro ao remover elemento da fila.\n");
+            }
+        }
+    } while (!esta_vazia);
 
     remover_queue(&queue);
 
