@@ -37,16 +37,18 @@
 
 /**
  * Tipo: elementoT
- * ---------------
- * O tipo elementoT é utilizado nesta inferface para indicar o tipo de valor que
- * será armazenado na fila. Por padrão a fila é utilizada para armazenar valores
- * do tipo "void *" (tornando a fila genérica), mas isso pode ser modificado
- * alterando-se a definção na linha abaixo.
+ * ----------------
+ * O tipo elementoT é utilizado nesta interface para indicar o tipo de valor que
+ * será armazenado na fila. Nesta implementação, a fila é utilizada para armazenar
+ * valores compostos por dois campos: um inteiro representando o valor e outro
+ * inteiro indicando a prioridade. Caso necessário, este tipo pode ser modificado
+ * para atender a diferentes requisitos da aplicação.
  */
 
-typedef struct {
-    int valor;      // Valor do elemento
-    int prioridade; // Prioridade do elemento
+typedef struct 
+{
+    int valor;      
+    int prioridade; 
 } elementoT;
 
 
