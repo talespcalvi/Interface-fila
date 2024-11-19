@@ -44,7 +44,11 @@
  * alterando-se a definção na linha abaixo.
  */
 
-typedef void *elementoT;
+typedef struct {
+    int valor;      // Valor do elemento
+    int prioridade; // Prioridade do elemento
+} elementoT;
+
 
 /**
  * Tipo abstrato: queueTAD
